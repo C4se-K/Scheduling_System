@@ -31,7 +31,9 @@ class entitiy:
 class scheduler:
     def __init__(self):
         self.entities = []
+
         self.ACTIVE = False
+        self.PROCESSING = False
 
         self.DECAY_RATE = 0
         self.DECAY_THRESHOLD = 0
@@ -60,13 +62,21 @@ class scheduler:
         pass
 
     def run(self):
-        # should i use a thread??
-        
         while self.ACTIVE:
             try:
+                if not self.PROCESSING:
+                    pass
+
+
+
+
+
+
+
+
                 time.sleep(1)
             except Exception as e:
-                pass
+                logging.exception(f"an exception occured in {self.__class__.__name__} : {e}")
             
 
 
