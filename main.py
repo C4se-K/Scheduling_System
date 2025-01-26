@@ -2,6 +2,8 @@ import datetime
 import math
 import numpy as np
 import logging
+import threading
+import time
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -21,9 +23,15 @@ class entitiy:
     def evaluate(self):
         pass
 
+
+
+
+
+
 class scheduler:
     def __init__(self):
         self.entities = []
+        self.ACTIVE = False
 
         self.DECAY_RATE = 0
         self.DECAY_THRESHOLD = 0
@@ -42,8 +50,7 @@ class scheduler:
         self.PRUNE_THRESHOLD = 0
         self.SIMILARITY_THRESHOLD = 0
 
-    def start(self):
-        pass
+        
     
 
     def process(self):
@@ -52,7 +59,43 @@ class scheduler:
     def decay(self):
         pass
 
-    
+    def run(self):
+        # should i use a thread??
+        
+        while self.ACTIVE:
+            try:
+                time.sleep(1)
+            except Exception as e:
+                pass
+            
+
+
+
+
+    def start(self):
+        if not self.ACTIVE:
+            
+            self.ACTIVE = True
+            self.thread = threading.Thread(target=self.run, daemon=True)
+            self.thread.start()
+
+            logging.info("starting scheduler")
+        else:
+            logging.warning("scheduler is already running")
+
+
+        
+
+    def stop(self):
+        if self.ACTIVE:
+            
+            self.ACTIVE = False
+            if self.thread: 
+                self.thread.join()
+
+                logging.info("starting stopped")
+        else:
+            logging.warning("scheduler is not running")
 
 
 
@@ -79,3 +122,10 @@ class scheduler:
     def __clear__(self):
         self.entities.clear()
         # self.entities = []
+
+if __name__ == "__main__":
+    scheduler_in = scheduler()
+
+    scheduler_in.start()
+
+    scheduler_in.stop()
