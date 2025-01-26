@@ -21,29 +21,9 @@ class entitiy:
     def evaluate(self):
         pass
 
-class simulator:
+class scheduler:
     def __init__(self):
         self.entities = []
-
-    
-
-    def process(self):
-        pass
-
-    def decay(self):
-        pass
-
-    
-
-
-
-
-
-
-    
-
-    def add(self, entity):
-        self.entities.append(entity)
 
         self.DECAY_RATE = 0
         self.DECAY_THRESHOLD = 0
@@ -62,8 +42,28 @@ class simulator:
         self.PRUNE_THRESHOLD = 0
         self.SIMILARITY_THRESHOLD = 0
 
+    def start(self):
+        pass
+    
+
+    def process(self):
+        pass
+
+    def decay(self):
+        pass
+
+    
 
 
+
+
+
+
+
+    
+
+    def add(self, entity):
+        self.entities.append(entity)
 
 
     def remove(self, entity):
