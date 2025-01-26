@@ -1,21 +1,30 @@
 import datetime
 import time
 from Scheduler import scheduler
+import random
 
 
 #testing
 if __name__ == "__main__":
     scheduler_in = scheduler()
 
-    scheduler_in.add()
+    short = []
 
     while True:
+        scheduler_in.add(id = random.randint(1, 100))
 
 
-        scheduler_in.add()
+        if len(short) < 5:
+            short.append(scheduler_in.select())
+        elif len(short) == 5:
+            short.pop(0)
+            
 
-        print(scheduler_in.select(), scheduler_in.__len__())
-        time.sleep(1)
+
+        
+
+        print(short)
+        time.sleep(0.25)
 
 
 
