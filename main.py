@@ -4,6 +4,7 @@ import numpy as np
 import logging
 import threading
 import time
+import random
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -23,6 +24,9 @@ class entitiy:
     def evaluate(self):
         pass
 
+    def decay(self):
+        pass
+
 
 
 
@@ -30,10 +34,13 @@ class entitiy:
 
 class scheduler:
     def __init__(self):
-        self.entities = []
+        self.ENTITIES = []
 
         self.ACTIVE = False
         self.PROCESSING = False
+
+
+        self.WAIT_TIME = 1
 
         self.DECAY_RATE = 0
         self.DECAY_THRESHOLD = 0
@@ -52,49 +59,59 @@ class scheduler:
         self.PRUNE_THRESHOLD = 0
         self.SIMILARITY_THRESHOLD = 0
 
-        
-    
 
+
+
+
+        
     def process(self):
         pass
 
-    def decay(self):
+
+    def decay_all(self):
         pass
 
-    def run(self):
+    
+    def select(self):
+        pass
+
+        if not self.ENTITIES:
+            return
+        
+
+        item = random.choices()
+        
+
+
+
+
+
+
+    def process_thread(self):
         while self.ACTIVE:
             try:
                 if not self.PROCESSING:
-                    pass
+                    #MAIN loop
 
-
-
-
-
-
-
-
-                time.sleep(1)
+                    self.process()
+                    self.select()
+                    self.decay_all()
+          
             except Exception as e:
                 logging.exception(f"an exception occured in {self.__class__.__name__} : {e}")
             
+            time.sleep(self.WAIT_TIME)
 
-
-
-
-    def start(self):
+    def run(self):
         if not self.ACTIVE:
             
             self.ACTIVE = True
-            self.thread = threading.Thread(target=self.run, daemon=True)
+            self.thread = threading.Thread(target=self.process_thread, daemon=True)
             self.thread.start()
 
             logging.info("starting scheduler")
         else:
             logging.warning("scheduler is already running")
-
-
-        
 
     def stop(self):
         if self.ACTIVE:
@@ -116,26 +133,31 @@ class scheduler:
     
 
     def add(self, entity):
-        self.entities.append(entity)
+        self.ENTITIES.append(entity)
 
 
     def remove(self, entity):
         try:
-            self.entities.remove(entity)
+            self.ENTITIES.remove(entity)
             print(f"Removed: {entity}")
         except ValueError:
             print(f"Entity not found: {entity}")
     
     def __len__(self):
-            return len(self.entities)
+            return len(self.ENTITIES)
 
     def __clear__(self):
-        self.entities.clear()
-        # self.entities = []
+        self.ENTITIES.clear()
+        # self.ENTITIES = []
 
+
+
+
+
+#testing
 if __name__ == "__main__":
     scheduler_in = scheduler()
 
-    scheduler_in.start()
+    scheduler_in.run()
 
     scheduler_in.stop()
