@@ -23,7 +23,8 @@ class entity:
         self.STATUS = status
         self.AGE = time.time()
 
-        self.RELEVANCE = self.evaluate()
+        self.RELEVANCE = 1
+        self.evaluate()
 
     def info(self):
         return {
@@ -76,10 +77,10 @@ class entity:
                        0) * weight_status
             
         if time.time() - self.AGE > 0:
-            weight += 10 * weight_age
+            weight += math.log(1 + time.time() - self.AGE) * weight_age
 
         #max score is 10, which means this item is 10 times more likely to be selected than an item with 1
-        return int(weight) if weight > 0 else 1
+        self.RELEVANCE = int(weight) if weight > 0 else 1
 
 
 class scheduler:
@@ -143,6 +144,8 @@ class scheduler:
                 pass
             if time:
                 temp.AGE = time.time()
+
+            temp.evaluate()
 
 
 
